@@ -84,7 +84,7 @@ Full reference with comments: [`.env.example`](.env.example). Copy it to `server
 | `ADMIN_EMAIL` / `ADMIN_PASSWORD` | **yes** | Seeds the only admin account |
 | `CLIENT_URL` | yes in prod | CORS allow-list; comma-separate for preview deploys |
 | `TIMEZONE` | | IANA zone, default `Asia/Kolkata`. Drives all slot and reminder maths |
-| `GEMINI_API_KEY` / `GEMINI_MODEL` | | Free key at [aistudio.google.com](https://aistudio.google.com/app/apikey) |
+| `GEMINI_API_KEY` / `GEMINI_MODEL` | | Free key at [aistudio.google.com](https://aistudio.google.com/app/apikey). Default model `gemini-3.5-flash-lite` |
 | `SMTP_HOST` / `PORT` / `USER` / `PASS` / `EMAIL_FROM` | | Resend, Mailgun, SendGrid, or a Gmail app password |
 | `GOOGLE_CLIENT_ID` / `SECRET` / `REFRESH_TOKEN` | | Single clinic account — see below |
 | `SLOT_HOLD_MINUTES` | | Hold window, default `5` |
@@ -170,7 +170,9 @@ Returns `200 UP` / `503 DEGRADED` with database state. Point your uptime pinger 
 
 ## LLM prompts & failure handling
 
-Both prompts request strict JSON (`responseMimeType: application/json`), are Zod-validated on return, and run under a 10-second timeout with exactly one retry.
+Both prompts request strict JSON (`responseMimeType: application/json`), are Zod-validated on return, and run under a 20-second timeout with exactly one retry.
+
+> **Model choice.** Google retires Gemini versions on a short cycle — `gemini-1.5-flash` and `gemini-2.5-flash` are already unavailable to newly issued API keys. The model is therefore set via `GEMINI_MODEL` rather than hardcoded; if calls start returning 404, change that variable. The default `gemini-3.5-flash-lite` returns triage in ~1.3s versus ~14.7s for `gemini-3.6-flash`, at equivalent quality on this task — which matters because the patient waits on this call during booking.
 
 ### Pre-visit triage
 > You are a medical triage assistant supporting a clinic's doctors. Analyse these patient symptoms and return: urgency level (Low / Medium / High), chief complaint, and three suggested questions for the doctor. … Use HIGH for red-flag presentations (chest pain, breathing difficulty, severe bleeding, stroke signs, suicidal ideation). … Never state a diagnosis or recommend a treatment.

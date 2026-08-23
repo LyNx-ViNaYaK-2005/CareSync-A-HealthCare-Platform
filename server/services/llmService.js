@@ -10,8 +10,11 @@ const { z } = require('zod');
  * consultation flows never break on a third-party outage.
  */
 
-const MODEL_NAME = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
-const TIMEOUT_MS = Number(process.env.LLM_TIMEOUT_MS) || 10000;
+// Model is env-configurable because Google retires Gemini versions on a short
+// cycle - `gemini-1.5-flash` and `gemini-2.5-flash` are already unavailable to
+// new API keys. If a call starts 404ing, change GEMINI_MODEL rather than code.
+const MODEL_NAME = process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite';
+const TIMEOUT_MS = Number(process.env.LLM_TIMEOUT_MS) || 20000;
 
 // ---------------------------------------------------------------- schemas
 
