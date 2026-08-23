@@ -34,8 +34,6 @@ Admin credentials are supplied with the submission rather than published here.
 5. Back as the patient, read the plain-language summary and the medication schedule you'll be emailed reminders for.
 6. As the doctor, **mark a leave day** with bookings on it — every affected appointment is cancelled, both parties emailed, and the calendar event removed.
 
-All four integrations are live. Nothing is stubbed.
-
 ---
 
 ## Running locally
