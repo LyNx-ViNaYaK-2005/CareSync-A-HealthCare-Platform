@@ -21,6 +21,7 @@ out/
 # Editor and OS temporary files
 .vscode/
 .idea/
+.claude/settings.local.json
 *.swp
 *.swo
 .DS_Store
