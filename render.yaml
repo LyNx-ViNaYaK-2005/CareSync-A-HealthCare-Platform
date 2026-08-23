@@ -27,7 +27,7 @@ services:
       - key: CLIENT_URL
         sync: false
 
-      # ---- database (required) ----
+      # ---- database ----
       # MongoDB Atlas SRV string. Whitelist 0.0.0.0/0 in Atlas Network Access
       # so Render's rotating egress IPs can connect.
       - key: MONGODB_URI
@@ -37,13 +37,13 @@ services:
       - key: ALLOW_INMEMORY_DB
         value: "false"
 
-      # ---- authentication (required) ----
+      # ---- authentication ----
       - key: JWT_SECRET
         generateValue: true
       - key: JWT_EXPIRY
         value: 7d
 
-      # ---- admin bootstrap (required) ----
+      # ---- admin bootstrap ----
       # No API route can create an ADMIN; these seed one on first boot.
       - key: ADMIN_NAME
         value: Clinic Administrator
@@ -56,7 +56,7 @@ services:
       - key: SEED_DOCTOR_PASSWORD
         sync: false
 
-      # ---- LLM (optional: falls back to deterministic summaries) ----
+      # ---- LLM ----
       - key: GEMINI_API_KEY
         sync: false
       - key: GEMINI_MODEL
@@ -64,7 +64,7 @@ services:
       - key: LLM_TIMEOUT_MS
         value: "20000"
 
-      # ---- email (optional: logs to console when unset) ----
+      # ---- email ----
       - key: SMTP_HOST
         sync: false
       - key: SMTP_PORT
@@ -78,7 +78,7 @@ services:
       - key: EMAIL_FROM
         sync: false
 
-      # ---- google calendar (optional: simulated when unset) ----
+      # ---- google calendar ----
       - key: GOOGLE_CLIENT_ID
         sync: false
       - key: GOOGLE_CLIENT_SECRET
