@@ -1,11 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, Link } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import SetPassword from './pages/SetPassword';
+import Privacy from './pages/Privacy';
 import PatientDashboard from './pages/patient/PatientDashboard';
 import BookAppointment from './pages/patient/BookAppointment';
 import DoctorDashboard from './pages/doctor/DoctorDashboard';
@@ -81,6 +82,10 @@ function App() {
                 }
               />
 
+              {/* Public and unguarded: Google's OAuth verification crawler must
+                  be able to read this without an account. */}
+              <Route path="/privacy" element={<Privacy />} />
+
               <Route
                 path="/set-password"
                 element={
@@ -128,6 +133,15 @@ function App() {
               <Route path="*" element={<HomeRedirect />} />
             </Routes>
           </main>
+
+          <footer className="border-t border-slate-200 py-5 mt-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+              <span>CareSync &middot; Healthcare Appointment &amp; Follow-up Manager</span>
+              <Link to="/privacy" className="font-semibold text-slate-600 hover:text-sky-600 transition">
+                Privacy Policy
+              </Link>
+            </div>
+          </footer>
         </div>
       </Router>
     </AuthProvider>
