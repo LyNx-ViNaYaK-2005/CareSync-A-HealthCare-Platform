@@ -1,0 +1,34 @@
+# Dependency folders
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Local environment configuration files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+server/.env
+client/.env
+
+# Build & bundle outputs
+dist/
+build/
+out/
+.next/
+
+# Editor and OS temporary files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log

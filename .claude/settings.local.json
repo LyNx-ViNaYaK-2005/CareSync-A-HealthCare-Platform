@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs wc -l)",
+      "Bash(node -e \"console.log\\(require\\('crypto'\\).randomBytes\\(48\\).toString\\('base64url'\\)\\)\")",
+      "Bash(npm run *)",
+      "Bash(npm test *)",
+      "Bash(node -e ' *)",
+      "Bash(PORT=5099 ALLOW_INMEMORY_DB=true MONGODB_URI= JWT_SECRET=smoketest_secret_key ADMIN_EMAIL=admin@caresync.com ADMIN_PASSWORD=Admin@CareSync2026 TIMEZONE=Asia/Kolkata node server.js)",
+      "Bash(node \"C:/Users/vinay/AppData/Local/Temp/claude/D--ME-Unthinkable/6423b162-ccb2-457d-9ad0-6964a9f38810/scratchpad/smoke.js\")",
+      "Bash(taskkill //F //IM node.exe)",
+      "Bash(PORT=5099 ALLOW_INMEMORY_DB=true MONGODB_URI= JWT_SECRET=smoketest_secret_key ADMIN_EMAIL=admin@caresync.com ADMIN_PASSWORD=Admin@CareSync2026 TIMEZONE=Asia/Kolkata RATE_LIMIT_BOOKING=500 RATE_LIMIT_LLM=500 RATE_LIMIT_AUTH=500 node server.js)",
+      "Bash(git init *)",
+      "Bash(git add *)"
+    ]
+  }
+}

@@ -1,0 +1,101 @@
+# Render blueprint for the CareSync backend.
+#
+# `sync: false` means Render prompts for the value at deploy time and never
+# stores it in this file - correct for every secret here. Set them in the
+# Render dashboard under Environment.
+#
+# Free-tier note: the instance sleeps after 15 minutes of inactivity, which
+# stops the medication-reminder cron. Point an external pinger (cron-job.org,
+# UptimeRobot) at /api/health every 10 minutes to keep it awake.
+
+services:
+  - type: web
+    name: caresync-backend
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm ci --omit=dev
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      # ---- runtime ----
+      - key: NODE_ENV
+        value: production
+      - key: TIMEZONE
+        value: Asia/Kolkata
+      # Your Vercel frontend URL. Comma-separate to allow preview deploys.
+      - key: CLIENT_URL
+        sync: false
+
+      # ---- database (required) ----
+      # MongoDB Atlas SRV string. Whitelist 0.0.0.0/0 in Atlas Network Access
+      # so Render's rotating egress IPs can connect.
+      - key: MONGODB_URI
+        sync: false
+      - key: ALLOW_LOCAL_DB_FALLBACK
+        value: "false"
+      - key: ALLOW_INMEMORY_DB
+        value: "false"
+
+      # ---- authentication (required) ----
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRY
+        value: 7d
+
+      # ---- admin bootstrap (required) ----
+      # No API route can create an ADMIN; these seed one on first boot.
+      - key: ADMIN_NAME
+        value: Clinic Administrator
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: SEED_SAMPLE_DOCTORS
+        value: "true"
+      - key: SEED_DOCTOR_PASSWORD
+        sync: false
+
+      # ---- LLM (optional: falls back to deterministic summaries) ----
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-1.5-flash
+      - key: LLM_TIMEOUT_MS
+        value: "10000"
+
+      # ---- email (optional: logs to console when unset) ----
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_SECURE
+        value: "false"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: EMAIL_FROM
+        sync: false
+
+      # ---- google calendar (optional: simulated when unset) ----
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REFRESH_TOKEN
+        sync: false
+      - key: GOOGLE_REDIRECT_URI
+        value: https://developers.google.com/oauthplayground
+      - key: GOOGLE_CALENDAR_ID
+        value: primary
+
+      # ---- background jobs ----
+      - key: SLOT_HOLD_MINUTES
+        value: "5"
+      - key: REMINDER_TICK_MINUTES
+        value: "5"
+      - key: REMINDER_WINDOW_MINUTES
+        value: "15"
+      - key: NOTIFICATION_MAX_ATTEMPTS
+        value: "3"
