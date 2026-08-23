@@ -18,10 +18,10 @@ build/
 out/
 .next/
 
-# Editor and OS temporary files
+# Editor, tooling, and OS temporary files
 .vscode/
 .idea/
-.claude/settings.local.json
+.claude/
 *.swp
 *.swo
 .DS_Store
